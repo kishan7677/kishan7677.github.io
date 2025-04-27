@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Kishan Kumar Sahu - Software Developer Portfolio showcasing expertise in C++, Flutter, and performance optimization">
+  <meta name="keywords" content="Software Developer, C++, Flutter, Image Processing, MFC, Direct2D, Portfolio">
+  <meta name="author" content="Kishan Kumar Sahu">
+  <title>Kishan Kumar Sahu | Software Developer Portfolio</title>
+  <link rel="icon" type="image/x-icon" href="assets/logo.png">
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style"
+    onload="this.rel='stylesheet'">
+  <style>
+    :root {
+      --primary: #007acc;
+      --dark: #1a2526;
+      --light: #f5f5f5;
+      --accent: #00c4ff;
+      --transition: 0.5s ease;
+      --nav-height: 60px;
+      --background: var(--dark);
+      --text-color: var(--light);
+      --section-bg: #2a3b3c;
+      --highlight: var(--accent);
+    }
+
+    [data-theme="light"] {
+      --background: #f5f5f5;
+      --text-color: #1a2526;
+      --section-bg: #e0e0e0;
+      --highlight: #007acc;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--background);
+      color: var(--text-color);
+      line-height: 1.6;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: rgba(0, 0, 0, 0.8);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: var(--nav-height);
+    }
+
+    .nav__links {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav__links li a {
+      text-decoration: none;
+      color: var(--light);
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      transition: color var(--transition);
+    }
+
+    .nav__links li a:hover {
+      color: var(--accent);
+    }
+
+    .nav__links li a.active {
+      color: var(--accent);
+      border-bottom: 2px solid var(--accent);
+    }
+
+    .nav__icons {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .nav__icons a,
+    .nav__icons button {
+      color: var(--light);
+      font-size: 1.2rem;
+      text-decoration: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: color var(--transition);
+    }
+
+    .nav__icons a:hover,
+    .nav__icons button:hover {
+      color: var(--accent);
+    }
+
+    .nav__toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .nav__toggle span {
+      width: 25px;
+      height: 3px;
+      background: var(--light);
+      transition: transform var(--transition), opacity var(--transition);
+    }
+
+    .nav__toggle.active span:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+
+    .nav__toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav__toggle.active span:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+
+    .container {
+      display: flex;
+      min-height: 100vh;
+      padding-top: var(--nav-height);
+    }
+
+    .left-column,
+    .right-column {
+      padding: 2rem;
+    }
+
+    .left-column {
+      background: var(--background);
+      flex: calc(70vw - 2rem);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .right-column {
+      background: var(--background);
+      flex: 30vw;
+      display: none;
+    }
+
+    #ball-game-canvas {
+      width: 100%;
+      height: 300px;
+      display: block;
+    }
+
+    .profile-image {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--highlight);
+    }
+
+    .intro,
+    .section {
+      width: 90%;
+      max-width: 1200px;
+      text-align: left;
+      background: var(--section-bg);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      border: 1px solid transparent;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .intro-header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .intro-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .intro-right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: calc(100% - 180px);
+      text-align: center;
+      padding: 0 0.5rem;
+    }
+
+    .waving-hand {
+      font-size: clamp(1.5rem, 3vw, 2.5rem);
+      display: inline-block;
+      animation: wave 1.5s infinite;
+      margin-bottom: 0.5rem;
+    }
+
+    @keyframes wave {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      25% {
+        transform: rotate(-30deg);
+      }
+
+      50% {
+        transform: rotate(30deg);
+      }
+
+      75% {
+        transform: rotate(-30deg);
+      }
+
+      100% {
+        transform: rotate(0deg);
+      }
+    }
+
+    .intro h1 {
+      font-size: clamp(1.2rem, 2.2vw, 2.5rem);
+      margin-bottom: 0.5rem;
+      white-space: normal;
+      max-width: 100%;
+      line-height: 1.2;
+    }
+
+    .intro h2 {
+      font-size: clamp(1rem, 1.8vw, 2rem);
+      color: var(--highlight);
+      margin-top: 0;
+      white-space: normal;
+      max-width: 100%;
+      line-height: 1.2;
+      min-height: 2rem;
+    }
+
+    .intro h2::after {
+      content: '|';
+      animation: blink 0.7s infinite;
+      margin-left: 2px;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    .intro ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .intro ul li {
+      margin-bottom: 0.5rem;
+      position: relative;
+      padding-left: 1.5rem;
+    }
+
+    .intro ul li:before {
+      content: '→';
+      color: var(--highlight);
+      position: absolute;
+      left: 0;
+    }
+
+    .section h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--highlight);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section h3 i {
+      font-size: 1.2rem;
+    }
+
+    .contact-item,
+    .skill-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 0.5rem 0;
+    }
+
+    .contact-item i,
+    .skill-item i {
+      font-size: 1.2rem;
+      color: var(--highlight);
+    }
+
+    .contact-item a {
+      color: var(--text-color);
+      text-decoration: none;
+    }
+
+    .contact-item a:hover {
+      color: var(--highlight);
+    }
+
+    .skill-box {
+      margin-bottom: 1.5rem;
+      background: var(--section-bg);
+      padding: 1rem;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .skill-box h4 {
+      font-size: 1.2rem;
+      color: var(--highlight);
+      margin-bottom: 0.5rem;
+    }
+
+    .skill-item {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.3rem;
+      margin: 0.5rem 0;
+    }
+
+    .skill-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .skill-progress {
+      width: 100%;
+      background: #333;
+      border-radius: 5px;
+      height: 8px;
+      overflow: hidden;
+    }
+
+    .progress {
+      background: var(--highlight);
+      height: 100%;
+      border-radius: 5px;
+      width: 0;
+      transition: width 0.8s ease;
+    }
+
+    .skill-item span {
+      font-size: 0.9rem;
+    }
+
+    .experience-item,
+    .project-item,
+    .education-item,
+    .course-item {
+      margin-bottom: 1.5rem;
+    }
+
+    .experience-item h4,
+    .project-item h4,
+    .education-item h4,
+    .course-item h4 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-color);
+    }
+
+    .experience-meta,
+    .project-meta,
+    .education-meta,
+    .course-meta {
+      font-size: 0.9rem;
+      color: #bbb;
+      margin-bottom: 0.5rem;
+    }
+
+    .experience-item ul,
+    .project-item ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .experience-item ul li,
+    .project-item ul li {
+      margin-bottom: 0.5rem;
+      position: relative;
+      padding-left: 1.5rem;
+    }
+
+    .experience-item ul li:before,
+    .project-item ul li:before {
+      content: '•';
+      color: var(--highlight);
+      position: absolute;
+      left: 0;
+    }
+
+    .experience-timeline {
+      position: relative;
+      padding-left: 20px;
+    }
+
+    .experience-timeline::before {
+      content: '';
+      position: absolute;
+      left: 5px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--highlight);
+    }
+
+    .experience-timeline-item {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 1.5rem;
+    }
+
+    .experience-timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -10px;
+      top: 5px;
+      width: 10px;
+      height: 10px;
+      background: var(--highlight);
+      border-radius: 50%;
+    }
+
+    .project-tech {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .project-tech li {
+      background: #333;
+      padding: 0.3rem 0.8rem;
+      border-radius: 15px;
+      font-size: 0.9rem;
+      color: var(--text-color);
+    }
+
+    #github-canvas {
+      width: 100%;
+      height: 150px;
+      display: block;
+    }
+
+    #back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--highlight);
+      color: var(--background);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, background var(--transition), color var(--transition);
+    }
+
+    #back-to-top.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .btn.btn--outline {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      text-decoration: none;
+      color: var(--highlight);
+      border: 3px solid var(--highlight);
+      border-radius: 5px;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    .btn.btn--outline:hover {
+      background: var(--highlight);
+      color: var(--background);
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .left-column,
+      .right-column {
+        width: 100%;
+      }
+
+      .nav__links {
+        position: fixed;
+        top: var(--nav-height);
+        left: 0;
+        width: 100%;
+        background: var(--background);
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem 0;
+        transform: translateY(-100%);
+        transition: transform 0.3s ease, background var(--transition);
+      }
+
+      .nav__links.active {
+        transform: translateY(0);
+      }
+
+      .nav__toggle {
+        display: flex;
+        position: absolute;
+        right: 1rem;
+      }
+
+      .profile-image {
+        width: 100px;
+        height: 100px;
+      }
+
+      .intro-right {
+        max-width: 100%;
+        padding: 0;
+      }
+
+      .intro-header {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      #ball-game-canvas {
+        height: 200px;
+      }
+
+      #github-canvas {
+        height: 100px;
+      }
+
+      .right-column {
+        display: none;
+      }
+    }
+
+    @media (min-width: 769px) {
+      .right-column {
+        display: block;
+      }
+
+      .intro-right {
+        align-items: flex-start;
+        text-align: left;
+        max-width: calc(100% - 180px);
+      }
+    }
+
+    @media (max-width: 320px) {
+      .profile-image {
+        width: 80px;
+        height: 80px;
+      }
+
+      .intro-right {
+        max-width: 100%;
+      }
+
+      .intro h1 {
+        font-size: clamp(1rem, 2vw, 1.5rem);
+      }
+
+      .intro h2 {
+        font-size: clamp(0.8rem, 1.5vw, 1.2rem);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="nav" aria-label="Main navigation">
+    <ul class="nav__links" id="nav-links" role="menubar">
+      <li role="none"><a href="#intro" role="menuitem" class="active" aria-current="page">Home</a></li>
+      <li role="none"><a href="#contact" role="menuitem">Contact</a></li>
+      <li role="none"><a href="assets/kishan-resume.pdf" download role="menuitem">Resume</a></li>
+      <li role="none"><a href="#projects" role="menuitem">Projects</a></li>
+      <li role="none"><a href="#experience" role="menuitem">Experience</a></li>
+    </ul>
+    <div class="nav__icons">
+      <a href="https://github.com/kishan7677" target="_blank" aria-label="GitHub Profile"><i
+          class="fab fa-github"></i></a>
+      <a href="https://www.linkedin.com/in/kishan-kumar-sahu-21a9a91b6/" target="_blank" aria-label="LinkedIn Profile"><i
+          class="fab fa-linkedin"></i></a>
+      <button id="theme-toggle" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+    </div>
+    <button class="nav__toggle" id="nav-toggle" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="container">
+    <div class="left-column">
+      <div class="section intro" id="intro">
+        <div class="section">
+          <h3><i class="fas fa-user"></i> Let Me Introduce Myself</h3>
+        </div>
+        <div class="intro-header">
+          <div class="intro-left">
+            <img src="assets/me.jpeg" alt="Kishan Kumar Sahu Profile Image" class="profile-image">
+          </div>
+          <div class="intro-right">
+            <span class="waving-hand" role="img" aria-label="Welcoming wave">👋</span>
+            <h1 id="name-title">Hello, my name is Kishan Kumar Sahu</h1>
+            <h2 id="typing-text"></h2>
+          </div>
+        </div>
+        <ul>
+          <li>I’m a dedicated Software Developer based in India, with extensive experience in crafting high-performance
+            solutions using C++, Flutter, and modern frameworks. My work focuses on optimization, scalability, and
+            user-friendly applications that make a lasting impact.</li>
+          <li>My expertise includes proficiency in C++, Java, Dart, Flutter, MFC, Direct2D, and cloud technologies like
+            AWS. I excel at optimizing software performance, reducing inefficiencies by up to 97%, and delivering
+            projects that exceed expectations.</li>
+          <li>I bring a proven track record of success, a passion for problem-solving, and a commitment to staying at
+            the cutting edge of technology. My goal is simple: to build efficient, scalable software that drives
+            innovation and success. Let’s collaborate and create something extraordinary together.</li>
+        </ul>
+      </div>
+      <div class="section" id="github">
+        <h3><i class="fab fa-github"></i> GitHub Contributions</h3>
+        <canvas id="github-canvas"></canvas>
+      </div>
+      <div class="section" id="experience">
+        <h3><i class="fas fa-briefcase"></i> Experience</h3>
+        <div class="experience-timeline">
+          <div class="experience-timeline-item">
+            <h4>Software Developer</h4>
+            <div class="experience-meta">
+              <span>Integus Systems Pvt. Ltd.</span> | <span>May 2023 - Present</span>
+            </div>
+            <ul>
+              <li>Boosted CAD software performance by 97% using Direct2D, enhancing client satisfaction.</li>
+              <li>Reduced memory usage by 40% with optimized algorithms, improving system reliability.</li>
+              <li>Automated debugging processes, cutting analysis time by 25% with PowerShell.</li>
+            </ul>
+          </div>
+          <div class="experience-timeline-item">
+            <h4>Product Developer</h4>
+            <div class="experience-meta">
+              <span>Wachme Smartwatch</span> | <span>2022 - 2023</span>
+            </div>
+            <ul>
+              <li>Developed a cross-platform IoT app, showcasing adaptability across platforms.</li>
+              <li>Ensured 99% data reliability with ACID-compliant SQLite, critical for user trust.</li>
+              <li>Reduced bugs by 25% through comprehensive testing, ensuring a seamless experience.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="section" id="education">
+        <h3><i class="fas fa-graduation-cap"></i> Education</h3>
+        <div class="education-item">
+          <h4>Bachelor of Technology in Computer Science and Engineering</h4>
+          <div class="education-meta">
+            <span>University of Engineering And Management, Jaipur</span> | <span>2019 - 2023</span>
+          </div>
+          <p>Graduated with a percentage of 71.88%, specializing in software development.</p>
+        </div>
+        <div class="education-item">
+          <h4>12th Grade (CBSE)</h4>
+          <div class="education-meta">
+            <span>Vikas Vidyaniketan, Visakhapatnam</span> | <span>2016 - 2018</span>
+          </div>
+          <p>Scored 78.00% with a focus on science and mathematics.</p>
+        </div>
+        <div class="education-item">
+          <h4>10th Grade (CBSE)</h4>
+          <div class="education-meta">
+            <span>DAV Public School, Gumla</span> | <span>2015 - 2016</span>
+          </div>
+          <p>Scored a CGPA of 8.20/10.00 with distinction in science and mathematics.</p>
+        </div>
+      </div>
+      <div class="section" id="courses">
+        <h3><i class="fas fa-certificate"></i> Courses/Certifications</h3>
+        <div class="course-item">
+          <h4>AWS Certified Solutions Architect</h4>
+          <div class="course-meta">
+            <span>Amazon Web Services</span> | <span>2023</span>
+          </div>
+        </div>
+        <div class="course-item">
+          <h4>Flutter & Dart - The Complete Guide</h4>
+          <div class="course-meta">
+            <span>Udemy</span> | <span>2022</span>
+          </div>
+        </div>
+        <div class="course-item">
+          <h4>Advanced C++ Programming</h4>
+          <div class="course-meta">
+            <span>Coursera</span> | <span>2021</span>
+          </div>
+        </div>
+      </div>
+      <div class="section" id="projects">
+        <h3><i class="fas fa-cube"></i> Projects</h3>
+        <div class="project-item">
+          <h4>High-Performance CAD Software</h4>
+          <div class="project-meta">
+            <span>C++ | MFC | Direct2D | Win32 API</span>
+          </div>
+          <ul>
+            <li>Achieved 97% faster performance with Direct2D GPU acceleration.</li>
+            <li>Reduced processing time from 2 minutes to 10 seconds through multithreading.</li>
+          </ul>
+        </div>
+        <div class="project-item">
+          <h4>Wachme IoT Controller</h4>
+          <div class="project-meta">
+            <span>Flutter | Dart | SQLite | WebSocket</span>
+          </div>
+          <ul>
+            <li>Built a cross-platform app with 99% data consistency using SQLite.</li>
+            <li>Reduced platform-specific bugs by 25% through rigorous testing.</li>
+          </ul>
+        </div>
+        <div class="project-item">
+          <h4>SafeCrypt Android App</h4>
+          <div project-meta>
+            <span>Java | Android | MVVM | AES</span>
+          </div>
+          <ul>
+            <li>Developed a secure app with AES encryption and MVVM architecture.</li>
+            <li>Integrated Google Drive for scalable, secure cloud backups.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="right-column">
+      <div class="section">
+        <canvas id="ball-game-canvas"></canvas>
+        <a href="assets/kishan-resume.pdf" download class="btn btn--outline">Resume PDF <i
+            class="fas fa-arrow-right"></i></a>
+      </div>
+      <div class="section" id="contact">
+        <h3><i class="fas fa-address-book"></i> Contact</h3>
+        <div class="contact-item">
+          <i class="fas fa-envelope"></i>
+          <a href="mailto:44kishan@gmail.com">44kishan@gmail.com</a>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-phone"></i>
+          <a href="tel:+919102417705">+91 9102417705</a>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-map-marker-alt"></i>
+          <span>India</span>
+        </div>
+        <div class="contact-item">
+          <i class="fab fa-github"></i>
+          <a href="https://github.com/kishan7677" target="_blank">github.com/kishan7677</a>
+        </div>
+        <div class="contact-item">
+          <i class="fab fa-linkedin"></i>
+          <a href="https://www.linkedin.com/in/kishan-kumar-sahu-21a9a91b6/" target="_blank">linkedin.com/in/kishankumarsahu</a>
+        </div>
+      </div>
+      <div class="section">
+        <h3><i class="fas fa-tools"></i> Skills</h3>
+        <div class="skill-box">
+          <h4>Languages</h4>
+          <div class="skill-item">
+            <div class="skill-label">
+              <i class="fas fa-code"></i>
+              <span>C++</span>
+            </div>
+            <div class="skill-progress">
+              <div class="progress" style="width: 95%;"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-label">
+              <i class="fab fa-java"></i>
+              <span>Java</span>
+            </div>
+            <div class="skill-progress">
+              <div class="progress" style="width: 90%;"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-label">
+              <i class="fas fa-code"></i>
+              <span>Dart</span>
+            </div>
+            <div class="skill-progress">
+              <div class="progress" style="width: 85%;"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-label">
+              <i class="fas fa-database"></i>
+              <span>SQL</span>
+            </div>
+            <div class="skill-progress">
+              <div class="progress" style="width: 80%;"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-label">
+              <i class="fas fa-code"></i>
+              <span>C#</span>
+            </div>
+            <div class="skill-progress">
+              <div class="progress" style="width: 75%;"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-label">
+              <i class="fab fa-js"></i>
+              <span>JavaScript</span>
+            </div>
+            <div class="skill-progress">
+              <div class="progress" style="width: 70%;"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-label">
+              <i class="fab fa-html5"></i>
+              <span>HTML</span>
+            </div>
+            <div class="skill-progress">
+              <div class="progress" style="width: 80%;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="skill-box">
+          <h4>Frameworks & Libraries</h4>
+          <div class="skill-item">
+            <div class="skill-label">
+              <i class="fas fa-code"></i>
+              <span>MFC</span>
+            </div>
+            <div class="skill-progress">
+              <div class="progress" style="width: 85%;"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-label">
+              <i class="fas fa-code"></i>
+              <span>Direct2D</span>
+            </div>
+            <div class="skill-progress">
+              <div class="progress" style="width: 90%;"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-label">
+              <i class="fas fa-code"></i>
+              <span>Flutter</span>
+            </div>
+            <div class="skill-progress">
+              <div class="progress" style="width: 88%;"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-label">
+              <i class="fas fa-database"></i>
+              <span>SQLite</span>
+            </div>
+            <div class="skill-progress">
+              <div class="progress" style="width: 85%;"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-label">
+              <i class="fas fa-code"></i>
+              <span>.NET</span>
+            </div>
+            <div class="skill-progress">
+              <div class="progress" style="width: 75%;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="skill-box">
+          <h4>Tools & Technologies</h4>
+          <div class="skill-item">
+            <div class="skill-label">
+              <i class="fas fa-tools"></i>
+              <span>Visual Studio</span>
+            </div>
+            <div class="skill-progress">
+              <div class="progress" style="width: 90%;"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-label">
+              <i class="fab fa-git-alt"></i>
+              <span>Git</span>
+            </div>
+            <div class="skill-progress">
+              <div class="progress" style="width: 85%;"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-label">
+              <i class="fas fa-tools"></i>
+              <span>PowerShell/Shell Scripting</span>
+            </div>
+            <div class="skill-progress">
+              <div class="progress" style="width: 80%;"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-label">
+              <i class="fab fa-linux"></i>
+              <span>UNIX/Linux</span>
+            </div>
+            <div class="skill-progress">
+              <div class="progress" style="width: 75%;"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-label">
+              <i class="fas fa-cloud"></i>
+              <span>AWS (EC2, S3)</span>
+            </div>
+            <div class="skill-progress">
+              <div class="progress" style="width: 80%;"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-label">
+              <i class="fas fa-tools"></i>
+              <span>CI/CD Pipelines</span>
+            </div>
+            <div class="skill-progress">
+              <div class="progress" style="width: 78%;"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-label">
+              <i class="fas fa-code"></i>
+              <span>Data Structures & Algorithms</span>
+            </div>
+            <div class="skill-progress">
+              <div class="progress" style="width: 88%;"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-label">
+              <i class="fas fa-code"></i>
+              <span>Android App Development</span>
+            </div>
+            <div class="skill-progress">
+              <div class="progress" style="width: 85%;"></div>
+            </div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-label">
+              <i class="fas fa-image"></i>
+              <span>Image Processing</span>
+            </div>
+            <div class="skill-progress">
+              <div class="progress" style="width: 80%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button id="back-to-top" aria-label="Back to top">↑</button>
+
+  <script defer>
+    // Typing Effect Logic
+    const typingText = document.getElementById('typing-text');
+    const texts = [
+      "I am a Software Engineer",
+      "I love coding",
+      "I am passionate about problem solving"
+    ];
+    let textIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let typingSpeed = 100;
+    let pauseTime = 2000;
+
+    function type() {
+      const currentText = texts[textIndex];
+      if (!isDeleting) {
+        typingText.textContent = currentText.substring(0, charIndex);
+        charIndex++;
+        if (charIndex > currentText.length) {
+          isDeleting = true;
+          setTimeout(type, pauseTime);
+          return;
+        }
+      } else {
+        typingText.textContent = currentText.substring(0, charIndex);
+        charIndex--;
+        if (charIndex < 0) {
+          isDeleting = false;
+          textIndex = (textIndex + 1) % texts.length;
+          setTimeout(type, 500);
+          return;
+        }
+      }
+      setTimeout(type, isDeleting ? typingSpeed / 2 : typingSpeed);
+    }
+
+    // Start typing effect on load
+    window.addEventListener('load', () => {
+      type();
+    });
+
+    // Theme Toggle Logic
+    const themeToggle = document.getElementById('theme-toggle');
+    const currentTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    if (currentTheme === 'light') {
+      themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+
+    themeToggle.addEventListener('click', () => {
+      let theme = document.documentElement.getAttribute('data-theme');
+      theme = theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      themeToggle.innerHTML = theme === 'dark' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
+    });
+
+    // Utility: Debounce function
+    function debounce(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    }
+
+    // Snake Animation for GitHub Contributions
+    const githubCanvas = document.getElementById('github-canvas');
+    const githubCtx = githubCanvas.getContext('2d');
+    const gridSize = 10;
+    let cols, rows;
+    let snake = [];
+    let direction = { x: 1, y: 0 };
+    let snakeLength = 5;
+    let lastSnakeFrameTime = 0;
+    let gridDots = [];
+
+    function resizeGithubCanvas() {
+      const sectionWidth = document.querySelector('#github').offsetWidth - 40;
+      githubCanvas.width = sectionWidth;
+      githubCanvas.height = window.innerWidth <= 768 ? 100 : 150;
+      cols = Math.floor(githubCanvas.width / gridSize);
+      rows = Math.floor(githubCanvas.height / gridSize);
+      gridDots = [];
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+          if (Math.random() < 0.1) {
+            gridDots.push({ x: col, y: row });
+          }
+        }
+      }
+    }
+
+    function initSnake() {
+      snake = [];
+      const startX = Math.floor(cols / 2);
+      const startY = Math.floor(rows / 2);
+      for (let i = 0; i < snakeLength; i++) {
+        snake.push({ x: startX - i, y: startY });
+      }
+    }
+
+    function animateSnake(timestamp) {
+      if (timestamp - lastSnakeFrameTime < 100) {
+        requestAnimationFrame(animateSnake);
+        return;
+      }
+      lastSnakeFrameTime = timestamp;
+
+      githubCtx.clearRect(0, 0, githubCanvas.width, githubCanvas.height);
+
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+          githubCtx.fillStyle = '#333';
+          githubCtx.fillRect(col * gridSize, row * gridSize, gridSize - 1, gridSize - 1);
+        }
+      }
+
+      gridDots.forEach(dot => {
+        githubCtx.fillStyle = '#28a745';
+        githubCtx.fillRect(dot.x * gridSize, dot.y * gridSize, gridSize - 1, gridSize - 1);
+      });
+
+      if (Math.random() < 0.1) {
+        const possibleDirections = [
+          { x: 1, y: 0 }, { x: -1, y: 0 }, { x: 0, y: 1 }, { x: 0, y: -1 }
+        ].filter(dir => !(dir.x === -direction.x && dir.y === -direction.y));
+        direction = possibleDirections[Math.floor(Math.random() * possibleDirections.length)];
+      }
+
+      const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
+      if (head.x >= cols) head.x = 0;
+      if (head.x < 0) head.x = cols - 1;
+      if (head.y >= rows) head.y = 0;
+      if (head.y < 0) head.y = rows - 1;
+
+      snake.unshift(head);
+      while (snake.length > snakeLength) {
+        snake.pop();
+      }
+
+      snake.forEach(segment => {
+        githubCtx.fillStyle = '#28a745';
+        githubCtx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize - 1, gridSize - 1);
+      });
+
+      requestAnimationFrame(animateSnake);
+    }
+
+    function isMobile() {
+      return window.innerWidth <= 768;
+    }
+
+    class Ball {
+      constructor(centerX, centerY, radius, color, angle, orbitRadius) {
+        this.centerX = centerX;
+        this.centerY = centerY;
+        this.baseRadius = radius;
+        this.radius = 0;
+        this.color = color;
+        this.angle = angle;
+        this.orbitRadius = orbitRadius;
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.targetX = centerX + Math.cos(angle) * orbitRadius;
+        this.targetY = centerY + Math.sin(angle) * orbitRadius;
+        this.isFollowingMouse = false;
+        this.isScattering = false;
+        this.isShrinking = false;
+        this.isExpanding = true;
+        this.vx = 0;
+        this.vy = 0;
+        this.opacity = 0.7;
+        this.scatterStartTime = null;
+        this.convergeStartTime = performance.now();
+        this.expandStartTime = performance.now();
+        this.shrinkStartTime = null;
+      }
+
+      draw(ctx) {
+        if (this.radius <= 0) return;
+
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+        ctx.shadowBlur = 10;
+        ctx.shadowOffsetX = 3;
+        ctx.shadowOffsetY = 3;
+
+        const gradient = ctx.createRadialGradient(
+          this.x - this.radius / 2, this.y - this.radius / 2, 0,
+          this.x, this.y, this.radius
+        );
+        gradient.addColorStop(0, 'rgba(169, 169, 169, 0.8)');
+        gradient.addColorStop(1, this.color);
+
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = gradient;
+        ctx.globalAlpha = this.opacity;
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.shadowColor = 'transparent';
+        ctx.shadowBlur = 0;
+        ctx.globalAlpha = 1;
+      }
+
+      update(canvas, mouse) {
+        if (this.isScattering) {
+          this.x += this.vx;
+          this.y += this.vy;
+          const elapsed = performance.now() - this.scatterStartTime;
+          this.opacity = Math.max(0, 0.7 - (elapsed / 30));
+          return;
+        }
+
+        const convergeElapsed = performance.now() - this.convergeStartTime;
+        if (convergeElapsed < 20) {
+          const t = convergeElapsed / 20;
+          this.x = this.x + (this.targetX - this.x) * t;
+          this.y = this.y + (this.targetY - this.y) * t;
+        } else {
+          this.x = this.targetX;
+          this.y = this.targetY;
+        }
+
+        if (this.isExpanding) {
+          const expandElapsed = performance.now() - this.expandStartTime;
+          if (expandElapsed < 5000) {
+            const t = expandElapsed / 5000;
+            this.radius = this.baseRadius * t;
+          } else {
+            this.radius = this.baseRadius;
+            this.isExpanding = false;
+          }
+        }
+
+        if (!this.isExpanding && !this.isShrinking && convergeElapsed >= 8020) {
+          this.isShrinking = true;
+          this.shrinkStartTime = performance.now();
+        }
+
+        if (this.isShrinking) {
+          const shrinkElapsed = performance.now() - this.shrinkStartTime;
+          if (shrinkElapsed < 1000) {
+            const t = shrinkElapsed / 1000;
+            this.radius = this.baseRadius * (1 - t);
+          } else {
+            this.radius = 0;
+          }
+          return;
+        }
+
+        if (mouse.x && mouse.y && !this.isExpanding && !this.isShrinking) {
+          const distX = mouse.x - this.x;
+          const distY = mouse.y - this.y;
+          const distance = Math.sqrt(distX * distX + distY * distY);
+          if (distance < 200) {
+            this.isFollowingMouse = true;
+            const speed = 0.05;
+            this.x += distX * speed;
+            this.y += distY * speed;
+          } else {
+            this.isFollowingMouse = false;
+          }
+        } else {
+          this.isFollowingMouse = false;
+        }
+
+        if (!this.isFollowingMouse && convergeElapsed >= 20) {
+          this.targetX = this.centerX + Math.cos(this.angle) * this.orbitRadius;
+          this.targetY = this.centerY + Math.sin(this.angle) * this.orbitRadius;
+          const distX = this.targetX - this.x;
+          const distY = this.targetY - this.y;
+          const speed = 0.1;
+          this.x += distX * speed;
+          this.y += distY * speed;
+        }
+
+        this.angle += 0.03;
+      }
+
+      scatter() {
+        this.isScattering = true;
+        this.isShrinking = false;
+        this.isExpanding = false;
+        this.radius = this.baseRadius;
+        this.opacity = 0.7;
+        this.scatterStartTime = performance.now();
+        const angle = Math.random() * 2 * Math.PI;
+        const speed = 5 + Math.random() * 5;
+        this.vx = Math.cos(angle) * speed;
+        this.vy = Math.sin(angle) * speed;
+      }
+    }
+
+    const canvas = document.getElementById('ball-game-canvas');
+    const ctx = canvas.getContext('2d');
+    let balls = [];
+    const mouse = { x: null, y: null };
+    let lastBallFrameTime = 0;
+
+    function initBalls() {
+      balls = [];
+      const numBalls = 20;
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      const cols = 5;
+      const rows = 4;
+      const spacing = 40;
+      let ballIndex = 0;
+
+      const gridWidth = (cols - 1) * spacing;
+      const gridHeight = (rows - 1) * spacing;
+      const offsetX = centerX - gridWidth / 2;
+      const offsetY = centerY - gridHeight / 2;
+
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+          if (ballIndex < numBalls) {
+            const centerX = offsetX + col * spacing;
+            const centerY = offsetY + row * spacing;
+            const radius = 20;
+            const color = 'rgba(75, 94, 170, 0.7)';
+            const angle = Math.random() * 2 * Math.PI;
+            const orbitRadius = 10;
+            balls.push(new Ball(centerX, centerY, radius, color, angle, orbitRadius));
+            ballIndex++;
+          }
+        }
+      }
+    }
+
+    function drawLines() {
+      const maxRadius = Math.max(...balls.map(ball => ball.radius));
+      if (maxRadius <= 0) return;
+
+      ctx.beginPath();
+      ctx.strokeStyle = `rgba(75, 94, 170, ${0.3 * (maxRadius / 20)})`;
+      ctx.lineWidth = 1.5;
+      for (let i = 0; i < balls.length; i++) {
+        if (balls[i].radius <= 0) continue;
+        const ballI = balls[i];
+        for (let j = i + 1; j < balls.length; j++) {
+          if (balls[j].radius <= 0) continue;
+          const ballJ = balls[j];
+          const dx = ballI.x - ballJ.x;
+          const dy = ballI.y - ballJ.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < 100) {
+            ctx.moveTo(ballI.x, ballI.y);
+            ctx.lineTo(ballJ.x, ballJ.y);
+          }
+        }
+      }
+      ctx.stroke();
+      ctx.closePath();
+    }
+
+    function animateBalls(timestamp) {
+      if (timestamp - lastBallFrameTime < 16.67) {
+        requestAnimationFrame(animateBalls);
+        return;
+      }
+      lastBallFrameTime = timestamp;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      balls = balls.filter(ball => {
+        if (ball.isScattering && performance.now() - ball.scatterStartTime >= 30) {
+          return false;
+        }
+        if (ball.isShrinking && performance.now() - ball.shrinkStartTime >= 1000) {
+          return false;
+        }
+        return true;
+      });
+
+      if (balls.length === 0) {
+        initBalls();
+      }
+
+      drawLines();
+      balls.forEach(ball => {
+        ball.update(canvas, mouse);
+        ball.draw(ctx);
+      });
+
+      requestAnimationFrame(animateBalls);
+    }
+
+    function resizeBallCanvas() {
+      const rightColumn = document.querySelector('.right-column');
+      canvas.width = rightColumn.offsetWidth - 40;
+      canvas.height = window.innerWidth <= 768 ? 200 : 300;
+    }
+
+    function resizeCanvases() {
+      resizeBallCanvas();
+      resizeGithubCanvas();
+    }
+
+    window.addEventListener('resize', () => {
+      resizeCanvases();
+      if (!isMobile()) {
+        initBalls();
+        initSnake();
+      }
+    });
+
+    canvas.addEventListener('mousemove', (e) => {
+      if (isMobile()) return;
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+      mouse.x = null;
+      mouse.y = null;
+    });
+
+    canvas.addEventListener('click', (e) => {
+      if (isMobile()) return;
+      const rect = canvas.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const clickY = e.clientY - rect.top;
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      const distance = Math.sqrt((clickX - centerX) ** 2 + (clickY - centerY) ** 2);
+      if (distance < 50) {
+        balls.forEach(ball => ball.scatter());
+      }
+    });
+
+    const toggle = document.getElementById('nav-toggle');
+    const navLinks = document.getElementById('nav-links');
+
+    toggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      toggle.classList.toggle('active');
+      toggle.setAttribute('aria-expanded', navLinks.classList.contains('active'));
+    });
+
+    const sections = document.querySelectorAll('.section, .intro');
+    const navLinksItems = document.querySelectorAll('.nav__links li a');
+    const backToTop = document.getElementById('back-to-top');
+
+    const observerOptions = {
+      threshold: [0.3, 0.6],
+      rootMargin: '0px'
+    };
+
+    let lastScrollY = window.scrollY;
+    let activeSectionId = 'intro';
+    let lastAnnouncementTime = 0;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const sectionId = entry.target.id;
+        const isVisible = entry.isIntersecting && entry.intersectionRatio >= 0.3;
+
+        if (isVisible) {
+          entry.target.setAttribute('aria-hidden', 'false');
+        }
+
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.6) {
+          activeSectionId = sectionId;
+          navLinksItems.forEach(link => {
+            link.classList.remove('active');
+            link.removeAttribute('aria-current');
+            if (link.getAttribute('href') === `#${sectionId}`) {
+              link.classList.add('active');
+              link.setAttribute('aria-current', 'page');
+            }
+          });
+
+          if (performance.now() - lastAnnouncementTime > 1000) {
+            const announcement = document.createElement('div');
+            announcement.setAttribute('aria-live', 'polite');
+            announcement.style.position = 'absolute';
+            announcement.style.clip = 'rect(0 0 0 0)';
+            announcement.textContent = `${sectionId.charAt(0).toUpperCase() + sectionId.slice(1)} section visible`;
+            document.body.appendChild(announcement);
+            lastAnnouncementTime = performance.now();
+            setTimeout(() => announcement.remove(), 1000);
+          }
+        }
+      });
+
+      if (window.scrollY === 0) {
+        activeSectionId = 'intro';
+        navLinksItems.forEach(link => {
+          link.classList.remove('active');
+          link.removeAttribute('aria-current');
+          if (link.getAttribute('href') === '#intro') {
+            link.classList.add('active');
+            link.setAttribute('aria-current', 'page');
+          }
+        });
+      }
+
+      backToTop.classList.toggle('show', window.scrollY > 300);
+
+      lastScrollY = window.scrollY;
+    }, observerOptions);
+
+    sections.forEach(section => observer.observe(section));
+
+    navLinksItems.forEach(link => {
+      link.addEventListener('click', (e) => {
+        if (link.getAttribute('href').startsWith('#')) {
+          e.preventDefault();
+          const targetId = link.getAttribute('href').slice(1);
+          const targetSection = document.getElementById(targetId);
+          targetSection.scrollIntoView({ behavior: 'smooth' });
+          if (navLinks.classList.contains('active')) {
+            navLinks.classList.remove('active');
+            toggle.classList.remove('active');
+            toggle.setAttribute('aria-expanded', 'false');
+          }
+        }
+      });
+    });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    window.addEventListener('scroll', debounce(() => {
+      lastScrollY = window.scrollY;
+    }, 100));
+
+    window.addEventListener('load', () => {
+      resizeCanvases();
+      if (!isMobile()) {
+        initBalls();
+        animateBalls();
+        initSnake();
+        animateSnake();
+      }
+    });
+  </script>
+</body>
+
+</html>
